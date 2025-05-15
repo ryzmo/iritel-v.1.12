@@ -1,16 +1,18 @@
 import warnings
+
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-import torch
-import cv2
-import time
 import csv
+import time
 from datetime import datetime
+
+import cv2
+import torch
 
 # Load YOLOv5 model
 print("Memuat model YOLOv5...")
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True)
 
 # Open camera
 cap = cv2.VideoCapture(0)
@@ -20,17 +22,17 @@ if not cap.isOpened():
 
 # Define rack zones (each with unique product type)
 racks = {
-    "Rak A - Snack":   {"area": (30, 100, 100, 200), "produk": "Snack"},
+    "Rak A - Snack": {"area": (30, 100, 100, 200), "produk": "Snack"},
     "Rak A - Minuman": {"area": (30, 210, 100, 300), "produk": "Minuman"},
-    "Rak A - Buah":    {"area": (30, 310, 100, 400), "produk": "Buah"},
-    "Rak B - Minuman": {"area": (540, 30, 620, 90),  "produk": "Minuman"},
-    "Rak B - Sereal":  {"area": (540, 100, 620, 150),"produk": "Sereal"}
+    "Rak A - Buah": {"area": (30, 310, 100, 400), "produk": "Buah"},
+    "Rak B - Minuman": {"area": (540, 30, 620, 90), "produk": "Minuman"},
+    "Rak B - Sereal": {"area": (540, 100, 620, 150), "produk": "Sereal"},
 }
 
 # Prepare logging
 log_file = "interaksi_log.csv"
 try:
-    with open(log_file, 'x', newline='') as f:
+    with open(log_file, "x", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["timestamp", "rak", "produk", "durasi_detik"])
 except FileExistsError:
@@ -39,13 +41,15 @@ except FileExistsError:
 # Initialize interaction states
 interaction_states = {rak: {"start_time": None, "ongoing": False, "duration": 0} for rak in racks}
 
+
 # Function to check overlap
 def is_overlap(box1, box2):
     x1_min, y1_min, x1_max, y1_max = box1
     x2_min, y2_min, x2_max, y2_max = box2
     return not (x1_max < x2_min or x2_max < x1_min or y1_max < y2_min or y2_max < y1_min)
 
-print("✅ Sistem siap. Tekan 'q' untuk keluar.")
+
+print("✅ System siap. Tekan 'q' untuk keluar.")
 
 while True:
     ret, frame = cap.read()
@@ -84,19 +88,27 @@ while True:
                 state["ongoing"] = True
             else:
                 state["duration"] = time.time() - state["start_time"]
-                cv2.putText(frame_with_boxes, f"Durasi: {int(state['duration'])} dtk", (x1, y2 + 40), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+                cv2.putText(
+                    frame_with_boxes,
+                    f"Durasi: {int(state['duration'])} dtk",
+                    (x1, y2 + 40),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.6,
+                    color,
+                    2,
+                )
         elif not interaction and state["ongoing"]:
             duration = state["duration"]
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(f"[{timestamp}] Interaksi {rak_label} ({produk}) selama {duration:.2f} detik.")
-            with open(log_file, 'a', newline='') as f:
+            with open(log_file, "a", newline="") as f:
                 csv.writer(f).writerow([timestamp, rak_label, produk, f"{duration:.2f}"])
             state["ongoing"] = False
             state["duration"] = 0
 
     cv2.imshow("Interaksi Produk - Smart Retail", frame_with_boxes)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
 cap.release()

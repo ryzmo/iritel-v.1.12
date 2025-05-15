@@ -1,6 +1,6 @@
 # Smart Retail and Consumer Behavior Analysis
 
-Sistem ini merupakan solusi berbasis **Computer Vision dan AI** untuk menganalisis **interaksi pelanggan di toko ritel** (seperti Indomaret atau Alfamart), menggunakan kamera, deteksi manusia (YOLOv5), dan analitik perilaku berbasis waktu.
+System ini merupakan solusi berbasis **Computer Vision dan AI** untuk menganalisis **interaksi pelanggan di toko ritel** (seperti Indomaret atau Alfamart), menggunakan kamera, deteksi manusia (YOLOv5), dan analitik perilaku berbasis waktu.
 
 ---
 
@@ -10,11 +10,11 @@ Sistem ini merupakan solusi berbasis **Computer Vision dan AI** untuk menganalis
 2. Mengukur **durasi interaksi** setiap pelanggan di tiap rak
 3. Menyimpan data secara otomatis ke **file log (CSV)**
 4. Menyediakan **dashboard visualisasi** real-time (jumlah interaksi, durasi, dan log data)
-5. Menggunakan **Gemini AI** (Google) untuk menghasilkan **analisis dan insight otomatis** dari data
+5. Menggunakan **Gemini AI** (Google) untuk menghasilkan **analysis dan insight otomatis** dari data
 
 ---
 
-## Arsitektur Sistem
+## Arsitektur System
 
 ```
 Kamera Laptop/Webcam
@@ -37,7 +37,7 @@ Kamera Laptop/Webcam
 | Deteksi Objek | [YOLOv5](https://github.com/ultralytics/yolov5) |
 | Video Capture | OpenCV                                          |
 | Dashboard     | Streamlit                                       |
-| Analisis AI   | Google Gemini (via API)                         |
+| Analysis AI   | Google Gemini (via API)                         |
 | Data Log      | CSV                                             |
 | Bahasa        | Python 3.10+                                    |
 
@@ -69,7 +69,7 @@ cd iritel-v.1.12
 
 ```bash
 python -m venv venv
-venv\Scripts\activate   # Windows
+venv\Scripts\activate # Windows
 ```
 
 ### 3. Install dependencies (optional, harusnya tanpa install ini langsung run saja bisa)
@@ -114,7 +114,7 @@ streamlit run dashboard_interaksi.py
 
 ## Hasil Dashboard
 
-* Jumlah interaksi per rak
-* Rata-rata durasi
-* Tabel riwayat interaksi
-* Analisis cerdas dari Gemini AI (langsung dari data CSV)
+- Jumlah interaksi per rak
+- Rata-rata durasi
+- Table riwayat interaksi
+- Analysis cerdas dari Gemini AI (langsung dari data CSV)
