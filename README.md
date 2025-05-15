@@ -62,7 +62,7 @@ project/
 ### 1. Pastikan sudah berada di folder ini
 
 ```bash
-cd smart-retail
+cd iritel-v.1.12
 ```
 
 ### 2. Buat Virtual Environment (opsional tapi disarankan)
